@@ -57,24 +57,6 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
             ICompositeMetadataDetailsProvider detailsProvider,
             DefaultMetadataDetails details,
             ModelBindingMessageProvider modelBindingMessageProvider)
-            : this(provider, detailsProvider, details, modelBindingMessageProvider, containerMetadata: null)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="DefaultModelMetadata"/>.
-        /// </summary>
-        /// <param name="provider">The <see cref="IModelMetadataProvider"/>.</param>
-        /// <param name="detailsProvider">The <see cref="ICompositeMetadataDetailsProvider"/>.</param>
-        /// <param name="details">The <see cref="DefaultMetadataDetails"/>.</param>
-        /// <param name="modelBindingMessageProvider">The <see cref="Metadata.ModelBindingMessageProvider"/>.</param>
-        /// <param name="containerMetadata">The metadata of the container type that the current instance is part of.</param>
-        public DefaultModelMetadata(
-            IModelMetadataProvider provider,
-            ICompositeMetadataDetailsProvider detailsProvider,
-            DefaultMetadataDetails details,
-            ModelBindingMessageProvider modelBindingMessageProvider,
-            ModelMetadata containerMetadata)
             : base(details.Key)
         {
             if (provider == null)
@@ -101,7 +83,7 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
             _detailsProvider = detailsProvider;
             _details = details;
             _modelBindingMessageProvider = modelBindingMessageProvider;
-            ContainerMetadata = containerMetadata;
+            ContainerMetadata = details.ContainerMetadata;
         }
 
         /// <summary>
