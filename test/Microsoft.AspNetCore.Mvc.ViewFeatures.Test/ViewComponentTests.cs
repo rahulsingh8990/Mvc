@@ -140,6 +140,24 @@ namespace Microsoft.AspNetCore.Mvc
         }
 
         [Fact]
+        public void ViewComponent_View_WithNullModelParameter_SetsResultViewWithDefaultViewNameAndNullModel()
+        {
+            // Arrange
+            var viewComponent = new TestViewComponent();
+
+            // Act
+            var actualResult = viewComponent.View(model: null as object);
+
+            // Assert
+            Assert.IsType<ViewViewComponentResult>(actualResult);
+            Assert.IsType<ViewDataDictionary<object>>(actualResult.ViewData);
+            Assert.NotSame(viewComponent.ViewData, actualResult.ViewData);
+            Assert.Equal(new ViewDataDictionary<object>(viewComponent.ViewData), actualResult.ViewData);
+            Assert.Null(actualResult.ViewData.Model);
+            Assert.Null(actualResult.ViewName);
+        }
+
+        [Fact]
         public void ViewComponent_View_WithViewNameAndModelParameters_SetsResultViewWithCustomViewNameAndModel()
         {
             // Arrange
