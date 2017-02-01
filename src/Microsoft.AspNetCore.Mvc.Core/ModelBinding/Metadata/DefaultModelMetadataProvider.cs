@@ -87,8 +87,7 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
                 var properties = new ModelMetadata[propertyDetails.Length];
                 for (var i = 0; i < properties.Length; i++)
                 {
-                    properties[i] = CreateModelMetadata(propertyDetails[i]);
-                    properties[i].ContainerMetadata = cacheEntry.Metadata;
+                    properties[i] = CreateModelMetadata(propertyDetails[i], cacheEntry.Metadata);
                 }
 
                 cacheEntry.Details.Properties = properties;
@@ -142,7 +141,7 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
         private ModelMetadataCacheEntry CreateCacheEntry(ModelMetadataIdentity key)
         {
             var details = CreateTypeDetails(key);
-            var metadata = CreateModelMetadata(details);
+            var metadata = CreateModelMetadata(details, containerMetadata: null);
             return new ModelMetadataCacheEntry(metadata, details);
         }
 
@@ -157,15 +156,16 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
         /// Creates a new <see cref="ModelMetadata"/> from a <see cref="DefaultMetadataDetails"/>.
         /// </summary>
         /// <param name="entry">The <see cref="DefaultMetadataDetails"/> entry with cached data.</param>
+        /// <param name="containerMetadata">The metadata of the container type that the new instance is part of.</param>
         /// <returns>A new <see cref="ModelMetadata"/> instance.</returns>
         /// <remarks>
         /// <see cref="DefaultModelMetadataProvider"/> will always create instances of
         /// <see cref="DefaultModelMetadata"/> .Override this method to create a <see cref="ModelMetadata"/>
         /// of a different concrete type.
         /// </remarks>
-        protected virtual ModelMetadata CreateModelMetadata(DefaultMetadataDetails entry)
+        protected virtual ModelMetadata CreateModelMetadata(DefaultMetadataDetails entry, ModelMetadata containerMetadata)
         {
-            return new DefaultModelMetadata(this, DetailsProvider, entry, ModelBindingMessageProvider);
+            return new DefaultModelMetadata(this, DetailsProvider, entry, ModelBindingMessageProvider, containerMetadata);
         }
 
         /// <summary>
