@@ -184,6 +184,7 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
         protected virtual DefaultMetadataDetails[] CreatePropertyDetails(ModelMetadataIdentity key)
         {
             var propertyHelpers = PropertyHelper.GetVisibleProperties(key.ModelType);
+
             var propertyEntries = new List<DefaultMetadataDetails>(propertyHelpers.Length);
             for (var i = 0; i < propertyHelpers.Length; i++)
             {
