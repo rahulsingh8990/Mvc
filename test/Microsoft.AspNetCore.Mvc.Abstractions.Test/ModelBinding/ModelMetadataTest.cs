@@ -303,6 +303,16 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding
         }
 
         [Fact]
+        public void GetContainerMetadata_ByDefault_ReturnsNull()
+        {
+            // Arrange
+            var metadata = new TestModelMetadata(typeof(MyType));
+
+            // Act & Assert
+            Assert.Null(metadata.ContainerMetadata);
+        }
+
+        [Fact]
         public void GetMetadataForType_ByDefaultThrows_NotImplementedException()
         {
             // Arrange
@@ -694,6 +704,11 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding
 
         private class DerivedDictionary : Dictionary<string, int>
         {
+        }
+
+        private class MyType
+        {
+            public int Count { get; set; }
         }
     }
 }

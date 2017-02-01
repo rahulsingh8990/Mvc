@@ -43,6 +43,11 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding
         public Type ContainerType { get { return Identity.ContainerType; } }
 
         /// <summary>
+        /// Gets the metadata of the container type that the current instance is part of.
+        /// </summary>
+        public ModelMetadata ContainerMetadata { get; set; }
+        
+        /// <summary>
         /// Gets a value indicating the kind of metadata element represented by the current instance.
         /// </summary>
         public ModelMetadataKind MetadataKind { get { return Identity.MetadataKind; } }

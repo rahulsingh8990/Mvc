@@ -88,6 +88,7 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
                 for (var i = 0; i < properties.Length; i++)
                 {
                     properties[i] = CreateModelMetadata(propertyDetails[i]);
+                    properties[i].ContainerMetadata = cacheEntry.Metadata;
                 }
 
                 cacheEntry.Details.Properties = properties;
@@ -183,7 +184,6 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Metadata
         protected virtual DefaultMetadataDetails[] CreatePropertyDetails(ModelMetadataIdentity key)
         {
             var propertyHelpers = PropertyHelper.GetVisibleProperties(key.ModelType);
-
             var propertyEntries = new List<DefaultMetadataDetails>(propertyHelpers.Length);
             for (var i = 0; i < propertyHelpers.Length; i++)
             {
