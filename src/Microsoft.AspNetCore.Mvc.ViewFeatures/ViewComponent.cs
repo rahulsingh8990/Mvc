@@ -237,7 +237,7 @@ namespace Microsoft.AspNetCore.Mvc
         /// <returns>A <see cref="ViewViewComponentResult"/>.</returns>
         public ViewViewComponentResult View()
         {
-            return View(null, ViewData.Model);
+            return View(viewName: null);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Microsoft.AspNetCore.Mvc
         /// <returns>A <see cref="ViewViewComponentResult"/>.</returns>
         public ViewViewComponentResult View<TModel>(TModel model)
         {
-            return View(null, model);
+            return View(viewName: null, model: model);
         }
 
         /// <summary>

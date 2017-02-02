@@ -88,6 +88,30 @@ namespace Microsoft.AspNetCore.Mvc.Test
         }
 
         [Fact]
+        public void Controller_View_WithoutParameter_MaintainsModelInViewData()
+        {
+            // Arrange
+            var controller = new TestableController()
+            {
+                ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider()),
+                TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>()),
+            };
+
+            var model = new object();
+            controller.ViewData.Model = model;
+
+            // Act
+            var actualViewResult = controller.View();
+
+            // Assert
+            Assert.IsType<ViewResult>(actualViewResult);
+            Assert.Null(actualViewResult.ViewName);
+            Assert.Same(controller.ViewData, actualViewResult.ViewData);
+            Assert.Same(controller.TempData, actualViewResult.TempData);
+            Assert.Same(model, actualViewResult.ViewData.Model);
+        }
+
+        [Fact]
         public void Controller_View_WithParameterViewName_SetsResultViewNameAndNullViewDataModelAndSameTempData()
         {
             // Arrange
@@ -150,6 +174,27 @@ namespace Microsoft.AspNetCore.Mvc.Test
             Assert.Same(controller.ViewData, actualViewResult.ViewData);
             Assert.Same(controller.TempData, actualViewResult.TempData);
             Assert.Same(model, actualViewResult.ViewData.Model);
+        }
+
+        [Fact]
+        public void Controller_View_WithParameterNullViewModel_MaintainsNullModel()
+        {
+            // Arrange
+            var controller = new TestableController()
+            {
+                ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider()),
+                TempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>()),
+            };
+
+            // Act
+            var actualViewResult = controller.View(model: null);
+
+            // Assert
+            Assert.IsType<ViewResult>(actualViewResult);
+            Assert.Null(actualViewResult.ViewName);
+            Assert.Same(controller.ViewData, actualViewResult.ViewData);
+            Assert.Same(controller.TempData, actualViewResult.TempData);
+            Assert.Null(actualViewResult.ViewData.Model);
         }
 
         [Fact]
